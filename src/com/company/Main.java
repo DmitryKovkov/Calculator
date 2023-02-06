@@ -7,17 +7,17 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        while (true) {
             System.out.println("Введите арифметическую операцию по шаблону: a + b,  a - b, a / b, a * b");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String str = reader.readLine();
             System.out.println(calc(str));
-        }
-
     }
 
     public static String calc (String input) {
-        String result="";
+        String result = "";
+        int a = 0; int b = 0;
+        boolean arab = true;
+
         String[] token = input.split(" ");
         if (token.length > 3)
             try {
@@ -34,23 +34,21 @@ public class Main {
                 System.exit(0);
             }
 
-        int a = 0;
-        int b = 0;
-
-        try {
+            try {
              a = Integer.parseInt(token[0]);
              b = Integer.parseInt(token[2]);
-        }
-        catch (NumberFormatException e) {
-           try {
+            }
+             catch (NumberFormatException e) {
+            try {
                a = Roman.valueOf(token[0]).getTranslation();
                b = Roman.valueOf(token[2]).getTranslation();
-           }
-           catch (IllegalArgumentException q) {
+               arab = false;
+            }
+            catch (IllegalArgumentException q) {
                System.out.println("т.к. неверный формат чисел");
                System.exit(0);
-           }
-        }
+            }
+            }
 
         if ((a>10)||(b>10))
             try {
@@ -79,8 +77,20 @@ public class Main {
                 } catch (CalcException e) {
                     System.out.println(e.getMessage());
                     System.exit(0);
-                };
+                }
         }
+
+        if (!arab) {
+            if (Integer.parseInt(result)<=0)
+               try {
+                   throw new CalcException("throws Exception //т.к. в римской системе нет отрицательных чисел или нуля");
+               } catch (CalcException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(0);
+               }
+        result = Roman.values()[Integer.parseInt(result)-1].name();}
+
         return result;
+
     }
 }
