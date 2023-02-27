@@ -88,8 +88,10 @@ public class Main {
                     System.out.println(e.getMessage());
                     System.exit(0);
                }
-        result = Roman.values()[Integer.parseInt(result)-1].name();}
+       // result = Roman.values()[Integer.parseInt(result)-1].name();
+        result = Roman.getRoman(Integer.parseInt(result)).name();
 
+        }
         return result;
 
     }
